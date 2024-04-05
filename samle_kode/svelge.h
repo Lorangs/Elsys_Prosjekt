@@ -17,7 +17,7 @@ const char* password = "12345678";
 const char* serverAddress = "172.20.10.12";
 const int serverPort = 5000;                            // Change to your server's port
 
-class Svelgesensor 
+class Svelge 
 {
     private:
         int piezo_reading = 0;                          // variable to store the value read from the sensor pin

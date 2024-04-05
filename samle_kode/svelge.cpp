@@ -1,12 +1,12 @@
 # include "svelge.h"
 
-void Svelgesensor::loop() {
+void Svelge::loop() {
     piezo_reading = analogRead(PIEZO_SENSOR);
     append_data();
     detect_swallows();
 }
 
-void Svelgesensor::append_data(){
+void Svelge::append_data(){
   if (p_index >= ARRAY_LENGTH-1) {
     p_index = 0;
   }
@@ -17,7 +17,7 @@ void Svelgesensor::append_data(){
   p_index++; // Increment the index tracker
 }
 
-void Svelgesensor::detect_swallows() {
+void Svelge::detect_swallows() {
   if (piezo[p_index] > PIEZO_THRESHOLD && abs(gyro_values[p_index]) < GYRO_THRESHOLD){
     if(s_index == 0){
       swallow_times[s_index] = time_values[p_index];
@@ -33,7 +33,7 @@ void Svelgesensor::detect_swallows() {
   }
 }
 
-void Svelgesensor::send_swallow_data(){
+void Svelge::send_swallow_data(){
   //Serial.println(swallow_times[s_index]);
   int data = swallow_times[s_index];
   WiFiClient client;

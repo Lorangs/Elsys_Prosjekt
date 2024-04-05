@@ -1,3 +1,4 @@
+#include "libraries.h"
 #include "svelge.h"
 #include "ligge.h"
 #include "falle.h"
@@ -8,7 +9,7 @@ sensors_event_t a, g, t;
 Adafruit_MPU6050 mpu;
 Ligge ligge;
 Svelge svelge;
-Fall falle;
+Falle falle;
 
 void setup() {
   //starting terminal for testing
@@ -36,7 +37,6 @@ void setup() {
 void loop () {
     // oppdaterer variable fra gyroskop
     mpu.getEvent(&a, &g, &t);
-
     ligge.loop();
     svelge.loop();
     falle.loop();

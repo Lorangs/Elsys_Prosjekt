@@ -1,7 +1,7 @@
 # pragma once
 # include "libraries.h"
 
-class Ligge_Saar 
+class Ligge
 {
     private:
         const int time_limit = 120000;         // 120 000 millisec - 2 min 

@@ -105,9 +105,6 @@ void Falle::reset_values(){
   }
 }
 
-
-
-
 void Falle::read_reset_button(){
   reset = !digitalRead(RESET_BUTTON_PIN);
 }
