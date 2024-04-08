@@ -20,6 +20,10 @@ const int serverPort = 5000;                            // Change to your server
 class Svelge 
 {
     private:
+        sensors_event_t a;
+        sensors_event_t g;
+        sensors_event_t t;
+
         int piezo_reading = 0;                          // variable to store the value read from the sensor pin
         unsigned long time_now = 0;                     //setter nåværende tid til 0
         unsigned long swallow_times[ARRAY_LENGTH];      //lag en array som skal holde alle svelgetidspunkt
@@ -35,6 +39,6 @@ class Svelge
         void send_swallow_data();
 
     public:
-        Svelgesensor(){};
-        void loop();
+        Svelge(){};
+        void loop(sensors_event_t accel, sensors_event_t gyro, sensors_event_t temp);
 };

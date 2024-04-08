@@ -4,19 +4,20 @@ Falle::Falle () {
   pinMode(RESET_BUTTON_PIN, INPUT_PULLDOWN);
 }
 
-void Falle::loop() {
-  abs_accel = abs_acceleration(a);
-  if (abs_accel <= lower_threshold) {
+void Falle::loop(sensors_event_t accel, sensors_event_t gyro, sensors_event_t temp) {
+  a = accel; g = gyro; t = temp;
+
+  if (abs_acceleration() <= lower_threshold) {
     trigger1 = 1;
     Serial.println("Trigger 1 activated.");
   }
 
   if (trigger1) {
-    handel_trigger1(a, g);
+    handel_trigger1();
   }
 
   if (trigger2) {
-    handel_trigger2(g);
+    handel_trigger2();
   }
 
   if (trigger3) {
@@ -27,6 +28,7 @@ void Falle::loop() {
     Serial.println("You have fallen.");
     //Sett in protocol for trådløs sending her.
     //Skru på led her.
+    // While-løkke låser programmet. Må endres!
     while(!reset) {
       delay(200);
       //Ta inn knapp input her.
@@ -36,20 +38,20 @@ void Falle::loop() {
   delay(200);
 }
 
-float Falle::abs_acceleration (sensors_event_t accel){
-  abs_accel = sqrt(pow(accel.acceleration.x,2) + pow(accel.acceleration.y,2) + pow(accel.acceleration.z,2));
+float Falle::abs_acceleration (){
+  abs_accel = sqrt(pow(a.acceleration.x,2) + pow(a.acceleration.y,2) + pow(a.acceleration.z,2));
   return abs_accel;
 }
 
-float Falle::abs_gyroscope (sensors_event_t gyro) {
-  abs_gyro = sqrt(pow(gyro.gyro.x,2) + pow(gyro.gyro.y,2) + pow(gyro.gyro.z,2));
+float Falle::abs_gyroscope () {
+  abs_gyro = sqrt(pow(g.gyro.x,2) + pow(g.gyro.y,2) + pow(g.gyro.z,2));
   return abs_gyro;
 }
  
-void Falle::handel_trigger1 (sensors_event_t accel, sensors_event_t gyro){
+void Falle::handel_trigger1(){
     if (trigger1count <= 0){
-      abs_gyro = abs_gyroscope(gyro);
-      angle_acc1 = gyro;
+      abs_gyro = abs_gyroscope();
+      angle_acc1 = g;
       Serial.print("abs_gyro: ");
       Serial.println(abs_gyro);
     }
@@ -61,13 +63,13 @@ void Falle::handel_trigger1 (sensors_event_t accel, sensors_event_t gyro){
     }
     // ellers skjer dette:
     else if (trigger1count == 5 && abs_acceleration(accel) >= upper_threshold){
-      angle_acc2 = gyro;
+      angle_acc2 = g;
       trigger2 = 1;
       Serial.println("Trigger 2 activated");
     }
 }
 
-void Falle::handel_trigger2 (sensors_event_t gyro) {
+void Falle::handel_trigger2 () {
   trigger2count ++;
   // Timer ut etter 3 sykluser (0.6 sekunder) etter at personen har truffet bakken
   if (trigger2count > 12) {

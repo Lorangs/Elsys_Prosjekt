@@ -1,9 +1,12 @@
 # include "svelge.h"
 
-void Svelge::loop() {
-    piezo_reading = analogRead(PIEZO_SENSOR);
-    append_data();
-    detect_swallows();
+void Svelge::loop(sensors_event_t accel, sensors_event_t gyro, sensors_event_t temp) {
+  a = accel; g = gyro; t = temp;              // oppdatering av gyroskopvariable
+  
+
+  piezo_reading = analogRead(PIEZO_SENSOR);
+  append_data();
+  detect_swallows();
 }
 
 void Svelge::append_data(){

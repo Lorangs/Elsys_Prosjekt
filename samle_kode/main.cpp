@@ -37,8 +37,8 @@ void setup() {
 void loop () {
     // oppdaterer variable fra gyroskop
     mpu.getEvent(&a, &g, &t);
-    ligge.loop();
-    svelge.loop();
-    falle.loop();
+    ligge.loop(sensors_event_t a, sensors_event_t g, sensors_event_t t);
+    svelge.loop(sensors_event_t a, sensors_event_t g, sensors_event_t t);
+    falle.loop(sensors_event_t a, sensors_event_t g, sensors_event_t t);
 
 }

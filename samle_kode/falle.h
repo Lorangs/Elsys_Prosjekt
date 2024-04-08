@@ -10,6 +10,10 @@
 class Falle 
 {
     private:
+        sensors_event_t a;                      // Fresh values from gyroscope
+        sensors_event_t g;
+        sensors_event_t t;
+
         sensors_event_t angle_acc1;
         sensors_event_t angle_acc2;
         float abs_accel = 0;
@@ -27,15 +31,15 @@ class Falle
         int trigger3count = 0;
 
         // private funksjoner
-        float abs_acceleration (sensors_event_t accel);
-        float abs_gyroscope (sensors_event_t gyro);
-        void handel_trigger1 (sensors_event_t accel, sensors_event_t gyro);
-        void handel_trigger2 (sensors_event_t gyro);
+        float abs_acceleration ();
+        float abs_gyroscope ();
+        void handel_trigger1 ();
+        void handel_trigger2 ();
         void handel_trigger3 ();
         void reset_values();
         void read_reset_button();
 
     public:
         Falle();
-        void loop();
-}
+        void loop(sensors_event_t accel, sensors_event_t gyro, sensors_event_t temp);
+};
